@@ -88,7 +88,6 @@ const crearTurno = async () => {
     console.error("ERROR CREANDO TURNO:", error.response?.data || error)
   }
 } 
-  cargar()
 
 onMounted(() => {
   cargar()

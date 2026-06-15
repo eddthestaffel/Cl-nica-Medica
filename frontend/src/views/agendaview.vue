@@ -29,7 +29,15 @@
           <td>{{ t.pacienteId }}</td>
           <td>{{ t.medico }}</td>
           <td>{{ t.motivo }}</td>
-          <td>{{ t.estado }}</td>
+          <td>
+            <select
+              v-model="t.estado"
+              @change="cambiarEstado(t.id, t.estado)">
+              <option value="programado">Programado</option>
+              <option value="atendido">Atendido</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -51,6 +59,24 @@ const cargarAgenda = async () => {
     turnos.value = res.data.data || res.data || []
   } catch (error) {
     console.error("ERROR AGENDA:", error.response?.data || error)
+  }
+}
+
+const cambiarEstado = async (id, estado) => {
+  try {
+
+    await api.patch(
+      `/turnos/${id}/estado`,
+      { estado }
+    )
+
+    await cargarAgenda()
+
+  } catch (error) {
+    console.error(
+      "ERROR CAMBIANDO ESTADO:",
+      error.response?.data || error
+    )
   }
 }
 

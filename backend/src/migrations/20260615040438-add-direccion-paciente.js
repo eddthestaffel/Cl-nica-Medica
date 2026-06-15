@@ -1,0 +1,22 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.addColumn(
+      'pacientes',
+      'direccion',
+      {
+        type: Sequelize.STRING(255),
+        allowNull: true
+      }
+    );
+  },
+
+  async down (queryInterface, Sequelize) {
+    await queryInterface.removeColumn(
+      'pacientes',
+      'direccion'
+    );
+  }
+};

@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     fechaNacimiento: { type: DataTypes.DATEONLY, allowNull: false },
     telefono: { type: DataTypes.STRING(20), allowNull: true },
     email: { type: DataTypes.STRING(255), allowNull: true },
+    direccion: { type: DataTypes.STRING(255), allowNull: true }
   }, { tableName: 'pacientes' });
+
 
   Paciente.associate = models => {
     Paciente.hasMany(models.TurnoMedico, { foreignKey: 'pacienteId', as: 'turnos' });

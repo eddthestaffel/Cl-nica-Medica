@@ -101,6 +101,10 @@ const eliminarPaciente = async (id) => {
   cargarPacientes()
 }
 
+const editarPaciente = (paciente) => {
+  editando.value = { ...paciente }
+}
+
 const guardarEdicion = async () => {
   await api.put(`/pacientes/${editando.value.id}`, editando.value)
   editando.value = null

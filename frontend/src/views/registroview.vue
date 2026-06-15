@@ -18,6 +18,7 @@
     <button @click="registrar">
       Registrar
     </button>
+    <p>{{ mensaje }}</p>
 
     <br><br>
 
@@ -47,16 +48,10 @@ const registrar = async () => {
     })
 
     mensaje.value = 'Usuario creado'
+
+    router.push('/')
   } catch (error) {
     mensaje.value = error.response?.data?.message || 'Error'
   }
 }
-
-await api.post('/auth/register', {
-  nombre: nombre.value,
-  email: email.value,
-  password: password.value
-})
-
-router.push('/login')
 </script>

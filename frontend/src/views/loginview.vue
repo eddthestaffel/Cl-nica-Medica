@@ -15,10 +15,11 @@
     <button @click="login">
       Ingresar
     </button>
+    <p>{{ mensaje }}</p>
 
     <br><br>
 
-    <router-link to="/registro">
+    <router-link to="/register">
       ¿No tienes cuenta? Regístrate
     </router-link>
   </div>
@@ -45,6 +46,7 @@ const login = async () => {
       'token',
       response.data.data.accessToken
     )
+    
     
     mensaje.value = 'Login exitoso'
     router.push('/agenda')
