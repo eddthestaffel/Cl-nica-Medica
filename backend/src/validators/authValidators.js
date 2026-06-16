@@ -17,4 +17,20 @@ const updateMe = [
   body('passwordActual').if(body('password').exists()).notEmpty().withMessage('passwordActual obligatorio'),
 ];
 
-module.exports = { register, login, refresh, logout, updateMe };
+const forgotPassword = [
+  body('email')
+    .isEmail()
+    .withMessage('Email inválido')
+];
+
+const resetPassword = [
+  body('token')
+    .notEmpty()
+    .withMessage('Token obligatorio'),
+
+  body('password')
+    .isLength({ min: 6 })
+    .withMessage('Mínimo 6 caracteres')
+];
+
+module.exports = {register,login,refresh,logout,updateMe,forgotPassword,resetPassword};

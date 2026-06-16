@@ -15,14 +15,27 @@ module.exports = (sequelize, DataTypes) => {
 
   Usuario.associate = models => {
     Usuario.hasMany(models.RefreshToken, { foreignKey: 'usuarioId', as: 'sesiones' });
+    Usuario.hasMany(models.PasswordResetToken, { foreignKey: 'usuarioId', as: 'resetTokens' });
   };
 
   Usuario.hashPassword = async password => bcrypt.hash(password, 10);
-  Usuario.prototype.validatePassword = async function(password) {
+  Usuario.prototype.validatePassword = async function (password) {
     return bcrypt.compare(password, this.passwordHash);
   };
-  Usuario.prototype.toSafeJSON = function() {
+  Usuario.prototype.toSafeJSON = function () {
     return { id: this.id, email: this.email, nombre: this.nombre, createdAt: this.createdAt, updatedAt: this.updatedAt };
+  };
+
+  Usuario.associate = models => {
+    Usuario.hasMany(models.RefreshToken, {
+      foreignKey: 'usuarioId',
+      as: 'sesiones'
+    });
+
+    Usuario.hasMany(models.PasswordResetToken, {
+      foreignKey: 'usuarioId',
+      as: 'passwordResets'
+    });
   };
 
   return Usuario;

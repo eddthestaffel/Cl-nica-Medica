@@ -36,3 +36,26 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## GEN-12 – Evolución de esquema
+
+Se realizó una migración de tipo AC (Agregar Campo).
+
+### Cambio realizado
+
+Se agregó el campo `direccion` a la tabla `pacientes`.
+
+### Motivo
+
+Permitir almacenar información de contacto más completa de los pacientes registrados en el sistema de Clínica Médica.
+
+### Archivos modificados
+
+* Migración de Sequelize para agregar la columna `direccion`.
+* Modelo `Paciente`.
+* Formulario de creación de pacientes.
+* Formulario de edición de pacientes.
+
+### Resultado
+
+Los pacientes ahora pueden registrar y actualizar su dirección desde la interfaz web.

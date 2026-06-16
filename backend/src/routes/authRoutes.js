@@ -14,4 +14,6 @@ router.post('/logout', verifyAccessToken, authValidators.logout, validate, authC
 router.get('/sesiones', verifyAccessToken, authController.listSesiones);
 router.delete('/sesiones/:id', verifyAccessToken, authController.revokeSesion);
 router.delete('/sesiones', verifyAccessToken, authController.revokeAllSesiones);
+router.post('/forgot-password',authValidators.forgotPassword,validate,authController.forgotPassword);
+router.post('/reset-password',authValidators.resetPassword,validate,authController.resetPassword);
 module.exports = router;

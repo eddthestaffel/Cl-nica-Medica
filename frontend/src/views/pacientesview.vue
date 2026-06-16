@@ -10,6 +10,7 @@
     <input v-model="nuevo.fechaNacimiento" type="date">
     <input v-model="nuevo.telefono" placeholder="Teléfono">
     <input v-model="nuevo.email" placeholder="Email">
+    <input v-model="nuevo.direccion" placeholder="Dirección">
 
     <button @click="crearPaciente">
       Crear
@@ -45,6 +46,11 @@
             <button @click="eliminarPaciente(p.id)">
               Eliminar
             </button>
+
+            <button @click="verHistorial(p.id)">
+              Historial
+            </button>
+
           </td>
         </tr>
       </tbody>
@@ -61,11 +67,45 @@
       <input v-model="editando.fechaNacimiento" type="date">
       <input v-model="editando.telefono">
       <input v-model="editando.email">
+      <input v-model="editando.direccion" placeholder="Dirección">
 
       <button @click="guardarEdicion">
         Guardar
       </button>
     </div>
+
+    <div v-if="pacienteHistorial">
+  <hr>
+
+  <h2>
+    Historial de {{ pacienteHistorial.nombre }}
+    {{ pacienteHistorial.apellido }}
+  </h2>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Médico</th>
+        <th>Motivo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr
+        v-for="t in historial"
+        :key="t.id"
+      >
+        <td>{{ t.fecha }}</td>
+        <td>{{ t.medico }}</td>
+        <td>{{ t.motivo }}</td>
+        <td>{{ t.estado }}</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
@@ -81,10 +121,14 @@ const nuevo = ref({
   rut: '',
   fechaNacimiento: '',
   telefono: '',
-  email: ''
+  email: '',
+  direccion: ''
 })
 
 const editando = ref(null)
+
+const historial = ref([])
+const pacienteHistorial = ref(null)
 
 const cargarPacientes = async () => {
   const response = await api.get('/pacientes')
@@ -109,6 +153,19 @@ const guardarEdicion = async () => {
   await api.put(`/pacientes/${editando.value.id}`, editando.value)
   editando.value = null
   cargarPacientes()
+}
+
+const verHistorial = async (id) => {
+  try {
+
+    const response = await api.get(`/pacientes/${id}`)
+
+    pacienteHistorial.value = response.data.data
+    historial.value = response.data.data.turnos || []
+
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 onMounted(() => {

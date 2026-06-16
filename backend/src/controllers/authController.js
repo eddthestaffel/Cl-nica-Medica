@@ -3,7 +3,8 @@ const { AppError } = require('../utils/errors');
 const authService = require('../services/authService');
 const asyncHandler = require('../utils/asyncHandler');
 
-const { Usuario } = db;
+const { Usuario, PasswordResetToken } = db;
+const crypto = require('crypto');
 
 const register = asyncHandler(async (req, res) => {
   const { email, password, nombre } = req.body;
@@ -69,4 +70,72 @@ const revokeAllSesiones = asyncHandler(async (req, res) => {
   res.status(204).send();
 });
 
-module.exports = { register, login, refresh, logout, me, updateMe, listSesiones, revokeSesion, revokeAllSesiones };
+const forgotPassword = asyncHandler(async (req, res) => {
+
+  const usuario = await Usuario.findOne({
+    where: {
+      email: req.body.email
+    }
+  });
+
+  if (!usuario) {
+    return res.json({
+      success: true,
+      message: 'Si el correo existe se generó un token'
+    });
+  }
+
+  const token = crypto.randomBytes(32).toString('hex');
+
+  await PasswordResetToken.create({
+    usuarioId: usuario.id,
+    token,
+    expiresAt: new Date(Date.now() + 15 * 60 * 1000)
+  });
+
+  console.log('TOKEN RECUPERACION:', token);
+
+  res.json({
+    success: true,
+    token
+  });
+
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+
+  const registro = await PasswordResetToken.findOne({
+    where: {
+      token: req.body.token,
+      used: false
+    }
+  });
+
+  if (!registro) {
+    throw new AppError('Token inválido', 400);
+  }
+
+  if (registro.expiresAt < new Date()) {
+    throw new AppError('Token expirado', 400);
+  }
+
+  const usuario = await Usuario.scope('withPassword')
+    .findByPk(registro.usuarioId);
+
+  usuario.passwordHash =
+    await Usuario.hashPassword(req.body.password);
+
+  await usuario.save();
+
+  registro.used = true;
+
+  await registro.save();
+
+  res.json({
+    success: true,
+    message: 'Contraseña actualizada'
+  });
+
+});
+
+module.exports = {register, login, refresh, logout, me, updateMe, listSesiones, revokeSesion, revokeAllSesiones, forgotPassword, resetPassword};

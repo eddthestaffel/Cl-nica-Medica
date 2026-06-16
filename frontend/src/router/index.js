@@ -4,6 +4,8 @@ import LoginView from '../views/loginview.vue'
 import RegisterView from '../views/registroview.vue'
 import PacientesView from '../views/pacientesview.vue'
 import AgendaView from '../views/agendaview.vue'
+import ForgotPasswordView from '../views/ForgotPasswordView.vue'
+import ResetPasswordView from '../views/resetpasswordview.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,16 @@ const router = createRouter({
       path: '/register',
       component: RegisterView
     },
+
+    {
+      path: '/forgot-password',
+      component: ForgotPasswordView
+    },
+    {
+      path: '/reset-password',
+      component: ResetPasswordView
+    },
+
     {
       path: '/pacientes',
       component: PacientesView
@@ -39,7 +51,13 @@ const router = createRouter({
 router.beforeEach((to) => {
   const token = localStorage.getItem('token')
 
-  if (!token && to.path !== '/login' && to.path !== '/register') {
+  if (
+    !token &&
+    to.path !== '/login' &&
+    to.path !== '/register' &&
+    to.path !== '/forgot-password' &&
+    to.path !== '/reset-password'
+  ) {
     return '/login'
   }
 

@@ -17,6 +17,10 @@
     </button>
     <p>{{ mensaje }}</p>
 
+    <RouterLink to="/forgot-password">
+      ¿Olvidaste tu contraseña?
+    </RouterLink>
+
     <br><br>
 
     <router-link to="/register">
@@ -29,6 +33,7 @@
 import { ref } from 'vue'
 import api from '../services/api'
 import { useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
 const router = useRouter()
 const email = ref('')

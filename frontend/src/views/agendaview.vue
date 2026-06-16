@@ -2,6 +2,15 @@
   <div>
     <h1>Agenda del día</h1>
 
+    <input
+      v-model="medico"
+      placeholder="Buscar médico"
+    />
+
+    <button @click="cargarAgenda">
+      Buscar
+    </button>
+
     <button @click="cargarAgenda">
       Actualizar
     </button>
@@ -48,11 +57,16 @@
 import { ref, onMounted } from 'vue'
 import api from '../services/api'
 
+const medico = ref('')
 const turnos = ref([])
 
 const cargarAgenda = async () => {
   try {
-    const res = await api.get('/turnos')
+    const res = await api.get('/turnos', {
+    params: {
+    medico: medico.value
+    }
+  })
 
     console.log("AGENDA:", res.data)
 
