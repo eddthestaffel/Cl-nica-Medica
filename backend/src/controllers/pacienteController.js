@@ -43,4 +43,6 @@ const remove = asyncHandler(async (req, res) => {
   res.status(204).send();
 });
 
+
+
 module.exports = { list, getById, create, update, remove };
