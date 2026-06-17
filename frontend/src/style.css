@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 30px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #eef2f7;
+  color: #2c3e50;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1565c0;
+}
+
+h2 {
+  color: #34495e;
+  border-bottom: 2px solid #dbe4ee;
+  padding-bottom: 8px;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 350px;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  background: white;
+}
+
+button {
+  padding: 10px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #1565c0;
+  transform: translateY(-1px);
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: #dbe4ee;
+  margin: 25px 0;
+}
+
+table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+th {
+  background: #1976d2;
+  color: white;
+  padding: 12px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+tr:hover {
+  background: #f8fbff;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.mensaje {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #e8f5e9;
+  color: #2e7d32;
+}

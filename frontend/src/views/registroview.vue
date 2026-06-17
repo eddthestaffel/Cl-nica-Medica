@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <h1>Registro</h1>
 
     <input v-model="nombre" placeholder="Nombre" />

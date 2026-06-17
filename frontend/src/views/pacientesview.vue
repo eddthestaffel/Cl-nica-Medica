@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <h1>Pacientes</h1>
 
     <h2>Nuevo Paciente</h2>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <h1>Turnos</h1>
 
     <h2>Crear turno</h2>

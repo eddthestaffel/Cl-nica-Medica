@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <h1>Agenda del día</h1>
 
     <input

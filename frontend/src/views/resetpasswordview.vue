@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <h1>Restablecer contraseña</h1>
 
     <input
