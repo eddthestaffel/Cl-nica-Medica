@@ -1,44 +1,52 @@
-# Clínica Médica - Backend
+# Clínica Médica - Backend y Frontend
 
-Pagina de Clinica Medica desarrollada con Node.js, Express, Squelize y MySQL, todo para la gestión de pacientes, turnos médicos y la autenticación de usuarios mediante JWT.
+## Descripción
+
+Sistema web para la gestión de una clínica médica desarrollado con Node.js, Express, Sequelize, MySQL y Vue.js.
+La aplicación permite administrar pacientes, turnos médicos, historial de consultas y autenticación mediante JWT.
+
+---
 
 ## Tecnologías utilizadas
 
+### Backend
+
 * Node.js
-* Express.js
+* Express
+* Sequelize
 * MySQL
-* Sequelize ORM
 * JWT (JSON Web Token)
 * bcrypt
-* express-validator
-* dotenv
-* nodemon
+
+### Frontend
+
+* Vue 3
+* Vue Router
+* Axios
+* Vite
 
 ---
 
 ## Instalación
 
-### 1. Clonar repositorio
+### Clonar repositorio
 
 ```bash
-git clone https://github.com/eddthestaffel/clinica-Medica.git
-cd clinica-medica/backend
+git clone <URL_DEL_REPOSITORIO>
 ```
 
-### 2. Instalar dependencias
+### Backend
 
 ```bash
+cd backend
 npm install
 ```
-
-* Revisar package.json para ver todas las dependencias
-
-### 3. Configurar variables de entorno
 
 Crear archivo `.env`:
 
 ```env
 PORT=3000
+NODE_ENV=development
 
 DB_HOST=localhost
 DB_PORT=3306
@@ -46,212 +54,121 @@ DB_NAME=clinica_medica
 DB_USER=root
 DB_PASSWORD=tu_password
 
-JWT_ACCESS_SECRET=access_secret
-JWT_REFRESH_SECRET=refresh_secret
+JWT_ACCESS_SECRET=clinica_access_secret_2026
+JWT_REFRESH_SECRET=clinica_refresh_secret_2026
 
 JWT_ACCESS_EXPIRES_IN=15m
 JWT_REFRESH_EXPIRES_IN=7d
 ```
 
----
-
-## Base de Datos
-
-Crear la base de datos:
-
-```sql
-CREATE DATABASE clinica_medica;
-```
-
-### Ejecutar migraciones
+Ejecutar migraciones:
 
 ```bash
 npx sequelize-cli db:migrate
 ```
 
----
-
-## Iniciar servidor
-
-Modo normal:
-
-```bash
-npm start
-```
-
-Modo desarrollo:
+Iniciar backend:
 
 ```bash
 npm run dev
 ```
 
-Si todo funciona correctamente aparecerá:
+### Frontend
 
-```text
-Conectado a MySQL
-backend en http://localhost:3000
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend disponible en:
+
+```txt
+http://localhost:5173
+```
+
+Backend disponible en:
+
+```txt
+http://localhost:3000
 ```
 
 ---
 
-## Estructura del proyecto
-
-```text
-src/
-├── config/
-├── controllers/
-├── middlewares/
-├── migrations/
-├── models/
-├── routes/
-├── seeders/
-├── services/
-├── utils/
-├── validators/
-├── app.js
-└── server.js
-```
-
----
-
-## API REST
+## Funcionalidades implementadas
 
 ### Autenticación
 
-#### Registrar usuario
+* Registro de usuarios
+* Inicio de sesión
+* JWT Access Token
+* Refresh Token
+* Cierre de sesión
 
-POST `/auth/register`
+### Gestión de pacientes
 
-```json
-{
-  "email": "admin@test.com",
-  "password": "123456",
-  "nombre": "Administrador"
-}
+* Crear pacientes
+* Editar pacientes
+* Eliminar pacientes
+* Listar pacientes
+
+### Gestión de turnos
+
+* Crear turnos médicos
+* Modificar turnos
+* Eliminar turnos
+* Visualización de agenda
+
+### Historial clínico (RQ-10)
+
+* Consulta del historial de turnos de cada paciente
+* Visualización desde la interfaz web
+
+### Recuperación de contraseña (GEN-07)
+
+* Solicitud de recuperación por correo electrónico
+* Generación de token temporal
+* Expiración de token
+* Restablecimiento de contraseña
+* Contraseña almacenada mediante hash bcrypt
+
+### Evolución de esquema (GEN-12)
+
+Se implementó una migración que agrega el campo:
+
+```txt
+direccion
 ```
 
-#### Iniciar sesión
+a la entidad Paciente.
 
-POST `/auth/login`
+Motivación:
+Permitir registrar información de contacto adicional para cada paciente.
 
-```json
-{
-  "email": "admin@test.com",
-  "password": "123456"
-}
-```
+---
 
-#### Obtener usuario autenticado
+## Estructura general
 
-GET `/auth/me`
+```txt
+backend/
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── middlewares/
+│   └── validators/
 
-Header:
-
-```text
-Authorization: Bearer TOKEN
+frontend/
+├── src/
+│   ├── views/
+│   ├── router/
+│   ├── services/
+│   └── assets/
 ```
 
 ---
 
-## Pacientes
+## Estado del proyecto
 
-### Listar pacientes
-
-GET `/pacientes`
-
-### Obtener paciente por ID
-
-GET `/pacientes/:id`
-
-### Crear paciente
-
-POST `/pacientes`
-
-```json
-{
-  "nombre": "Juan",
-  "apellido": "Pérez",
-  "rut": "12345678-9",
-  "fechaNacimiento": "1990-01-15",
-  "telefono": "912345678",
-  "email": "juan@email.com"
-}
-```
-
-### Actualizar paciente
-
-PUT `/pacientes/:id`
-
-### Eliminar paciente
-
-DELETE `/pacientes/:id`
-
----
-
-## Turnos Médicos
-
-### Listar turnos
-
-GET `/turnos`
-
-### Obtener turno por ID
-
-GET `/turnos/:id`
-
-### Crear turno
-
-POST `/turnos`
-
-```json
-{
-  "pacienteId": 1,
-  "medico": "Dr. González",
-  "fecha": "2026-06-15",
-  "horaInicio": "09:00",
-  "horaFin": "10:00",
-  "motivo": "Control General"
-}
-```
-
-### Actualizar turno
-
-PUT `/turnos/:id`
-
-### Cambiar estado
-
-PATCH `/turnos/:id/estado`
-
-```json
-{
-  "estado": "atendido"
-}
-```
-
-Estados válidos:
-
-* programado
-* atendido
-* cancelado
-
-### Eliminar turno
-
-DELETE `/turnos/:id`
-
-### Agenda diaria
-
-GET `/turnos/agenda?fecha=2026-06-15`
-
----
-
-## Seguridad
-
-* La autenticación es mediante JWT.
-* Los refresh de Tokens se van almacenados en base de datos.
-* Validación de datos mediante express-validator.
-* Middleware es el control de errores.
-
----
-
-## Pruebas
-
-Todos los testeos de endpoints fueron realizadas en el increíble Postman.
+Proyecto funcional en entorno local utilizando MySQL.
